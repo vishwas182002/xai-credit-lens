@@ -1,0 +1,116 @@
+{
+  "framework": "Federal Reserve SR 11-7: Guidance on Model Risk Management",
+  "model_name": "Random Forest Credit Default Classifier",
+  "document_date": "2026-03-15T20:13:31.745849",
+  "model_tier": "Tier 2 \u2014 Material Model",
+  "sections": {
+    "model_development": {
+      "title": "Model Development Documentation",
+      "items": {
+        "objective_and_intended_use": {
+          "requirement": "Objective and intended use",
+          "documentation": "The Random Forest Credit Default Classifier is designed to predict the probability of credit card payment default within the next billing cycle. It is intended as a decision-support tool for credit risk assessment, providing probability estimates alongside multi-method explanations (SHAP, LIME, counterfactual) to enable informed human decision-making. The model is NOT intended for autonomous credit decisioning.",
+          "status": "DOCUMENTED"
+        },
+        "data_sources_and_quality": {
+          "requirement": "Data sources and quality",
+          "documentation": "Training data: UCI Default of Credit Card Clients dataset (30,000 records from a Taiwan bank, 2005). 23 original features covering demographics, credit limit, 6-month payment history, and billing information. 9 engineered features capturing behavioral patterns (debt-to-income proxy, payment ratio, utilization rate, delinquency counts, payment trend, balance volatility). Data quality: No missing values. Known categorical encoding issues cleaned (EDUCATION categories 0,5,6 merged; MARRIAGE category 0 merged). Limitation: Single-institution, single-country dataset from 2005 may not generalize to current US market conditions.",
+          "status": "DOCUMENTED"
+        },
+        "feature_selection_rationale": {
+          "requirement": "Feature selection rationale",
+          "documentation": "Features selected based on credit risk domain knowledge: payment history (strongest predictor per SHAP analysis), credit utilization, and behavioral trends. 9 engineered features derived from raw payment and billing data to capture temporal patterns. Protected attributes (SEX, MARRIAGE, AGE) included for fairness monitoring but flagged in compliance pipeline. Feature importance validated via SHAP global analysis.",
+          "status": "DOCUMENTED"
+        },
+        "methodology_and_alternatives": {
+          "requirement": "Model methodology and alternatives considered",
+          "documentation": "Three model architectures evaluated: XGBoost (gradient boosted trees), LightGBM (gradient boosted trees with leaf-wise growth), Random Forest (bagged decision trees). Random Forest selected based on highest validation AUC (0.7768635450231097). Tree-based models chosen for interpretability compatibility with SHAP TreeExplainer. Linear models (Logistic Regression) considered but excluded due to lower performance on non-linear payment patterns.",
+          "status": "DOCUMENTED"
+        },
+        "assumptions_and_limitations": {
+          "requirement": "Assumptions and limitations",
+          "documentation": "Key assumptions: (1) Historical payment patterns are predictive of future default behavior. (2) Feature relationships are adequately captured by tree-based ensemble methods. Key limitations: (1) Training data is from a single Taiwan bank (2005) \u2014 population drift likely for other markets/time periods. (2) Model does not incorporate macroeconomic indicators. (3) 22.12% default rate in training data may not match deployment population. (4) Counterfactual explanations assume feature independence.",
+          "status": "DOCUMENTED"
+        }
+      }
+    },
+    "validation": {
+      "title": "Model Validation",
+      "items": {
+        "independent_review": {
+          "requirement": "Independent review of model logic",
+          "documentation": "Model logic reviewed through: (1) SHAP global feature importance confirming payment history as dominant predictor (consistent with domain expectations). (2) LIME local explanations validated against SHAP for consistency. (3) Counterfactual analysis confirms model responds sensibly to feature changes.",
+          "status": "DOCUMENTED"
+        },
+        "out_of_sample_testing": {
+          "requirement": "Out-of-sample testing results",
+          "documentation": "Held-out test set (6,000 samples, 20% of data): AUC = 0.7768635450231097, F1 = 0.5399267399267399, Precision = 0.5253029223093372, Recall = 0.5553880934438583. Stratified split ensures class balance consistency across train (22.12%), validation (22.11%), and test (22.12%) sets.",
+          "status": "DOCUMENTED"
+        },
+        "sensitivity_analysis": {
+          "requirement": "Sensitivity analysis",
+          "documentation": "Sensitivity assessed via: (1) Three competing model architectures showing consistent AUC within 0.003 range. (2) SHAP dependence plots showing monotonic relationships for key features. (3) Counterfactual analysis quantifying decision boundary sensitivity to individual feature changes.",
+          "status": "DOCUMENTED"
+        },
+        "benchmarking": {
+          "requirement": "Benchmarking against alternative approaches",
+          "documentation": "Model compared against three alternative approaches (XGBoost, LightGBM, Random Forest). Published benchmarks on this dataset report AUC of 0.77-0.82; our model achieves AUC = 0.7768635450231097, within expected range. Fairness audit status: PASS across all 4 protected attributes.",
+          "status": "DOCUMENTED"
+        }
+      }
+    },
+    "ongoing_monitoring": {
+      "title": "Ongoing Monitoring",
+      "items": {
+        "performance_tracking": {
+          "requirement": "Performance metric tracking plan",
+          "documentation": "Monitoring plan: Track AUC, F1, precision, recall, and Brier score on monthly production data. Alert threshold: AUC degradation > 5% from baseline triggers model review. Fairness metrics (disparate impact, equalized odds) monitored quarterly across all protected groups.",
+          "status": "PLANNED"
+        },
+        "population_stability": {
+          "requirement": "Population stability index (PSI)",
+          "documentation": "Population Stability Index (PSI) to be computed monthly comparing production feature distributions against training data. PSI > 0.25 triggers investigation; PSI > 0.10 triggers enhanced monitoring.",
+          "status": "PLANNED"
+        },
+        "feature_drift": {
+          "requirement": "Feature drift detection",
+          "documentation": "Feature drift detection via Kolmogorov-Smirnov test on continuous features and chi-squared test on categorical features. Monthly automated checks with dashboard reporting.",
+          "status": "PLANNED"
+        },
+        "retraining_triggers": {
+          "requirement": "Retraining triggers and schedule",
+          "documentation": "Retraining triggered by: (1) AUC drop > 5% sustained over 2 consecutive months. (2) PSI > 0.25 on any feature. (3) Fairness metric violation on any protected attribute. (4) Scheduled annual retraining regardless of performance.",
+          "status": "PLANNED"
+        }
+      }
+    },
+    "governance": {
+      "title": "Governance",
+      "items": {
+        "roles": {
+          "requirement": "Model owner and validator roles",
+          "documentation": "Model Owner: Credit Risk Analytics team lead. Model Validator: Independent model risk management team. Model User: Credit underwriting officers. Separation of duties maintained between development and validation functions.",
+          "status": "TEMPLATE"
+        },
+        "change_management": {
+          "requirement": "Approval and change management process",
+          "documentation": "All model changes require: (1) Impact assessment. (2) Validation team review. (3) Approval from model governance committee. (4) Documentation update. Version control via Git with tagged releases.",
+          "status": "TEMPLATE"
+        },
+        "escalation": {
+          "requirement": "Escalation procedures",
+          "documentation": "Escalation path: Model User \u2192 Model Owner \u2192 Model Risk Management \u2192 Chief Risk Officer. Fairness violations escalate directly to compliance and legal teams.",
+          "status": "TEMPLATE"
+        }
+      }
+    }
+  },
+  "compliance_checklist": {
+    "total_requirements": 16,
+    "documented": 9,
+    "planned": 4,
+    "template": 3,
+    "completion_pct": "56%"
+  },
+  "summary": "FED SR 11-7 MODEL RISK MANAGEMENT DOCUMENTATION\n=======================================================\nModel: Random Forest Credit Default Classifier\nTier: Tier 2 \u2014 Material Model\nDate: 2026-03-15\n\nDocumentation Completion: 56%\n  Documented: 9/16\n  Planned:    4/16\n  Template:   3/16\n\n--- Model Development Documentation ---\n  \u2705 Objective and intended use: DOCUMENTED\n  \u2705 Data sources and quality: DOCUMENTED\n  \u2705 Feature selection rationale: DOCUMENTED\n  \u2705 Model methodology and alternatives considered: DOCUMENTED\n  \u2705 Assumptions and limitations: DOCUMENTED\n\n--- Model Validation ---\n  \u2705 Independent review of model logic: DOCUMENTED\n  \u2705 Out-of-sample testing results: DOCUMENTED\n  \u2705 Sensitivity analysis: DOCUMENTED\n  \u2705 Benchmarking against alternative approaches: DOCUMENTED\n\n--- Ongoing Monitoring ---\n  \ud83d\udccb Performance metric tracking plan: PLANNED\n  \ud83d\udccb Population stability index (PSI): PLANNED\n  \ud83d\udccb Feature drift detection: PLANNED\n  \ud83d\udccb Retraining triggers and schedule: PLANNED\n\n--- Governance ---\n  \ud83d\udcdd Model owner and validator roles: TEMPLATE\n  \ud83d\udcdd Approval and change management process: TEMPLATE\n  \ud83d\udcdd Escalation procedures: TEMPLATE\n"
+}

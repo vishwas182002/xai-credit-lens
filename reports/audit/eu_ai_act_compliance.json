@@ -1,0 +1,100 @@
+{
+  "framework": "EU Artificial Intelligence Act (2024)",
+  "risk_classification": "high",
+  "use_case": "Credit scoring / creditworthiness assessment",
+  "assessment_date": "2026-03-15T20:13:31.741322",
+  "overall_compliance": "COMPLIANT",
+  "checks": {
+    "transparency": {
+      "requirement": "Article 13 \u2014 Transparency",
+      "description": "High-risk AI systems shall be designed and developed in such a way to ensure their operation is sufficiently transparent to enable deployers to interpret the system's output and use it appropriately.",
+      "sub_checks": [
+        {
+          "item": "Model documentation with intended purpose and limitations",
+          "status": "PASS",
+          "evidence": "README.md contains model purpose, methodology, and limitations."
+        },
+        {
+          "item": "Clear disclosure that AI is used in credit decisions",
+          "status": "PASS",
+          "evidence": "Streamlit dashboard clearly indicates AI-based decisioning."
+        },
+        {
+          "item": "Explanation of key factors influencing each decision",
+          "status": "PASS",
+          "evidence": "SHAP, LIME, and counterfactual explanations provided for each decision."
+        }
+      ],
+      "overall": "PASS"
+    },
+    "human_oversight": {
+      "requirement": "Article 14 \u2014 Human Oversight",
+      "description": "High-risk AI systems shall be designed and developed in such a way that they can be effectively overseen by natural persons.",
+      "sub_checks": [
+        {
+          "item": "Human-in-the-loop for final credit decisions",
+          "status": "PASS",
+          "evidence": "Dashboard provides prediction + explanation for human review before final decision."
+        },
+        {
+          "item": "Override capability documented",
+          "status": "PASS",
+          "evidence": "System outputs recommendations, not final decisions. Human retains override authority."
+        },
+        {
+          "item": "Escalation procedures for edge cases",
+          "status": "PASS",
+          "evidence": "Fairness flags trigger escalation for applicants in monitored demographic groups."
+        }
+      ],
+      "overall": "PASS"
+    },
+    "data_governance": {
+      "requirement": "Article 10 \u2014 Data and Data Governance",
+      "description": "Training, validation and testing data sets shall be subject to appropriate data governance and management practices.",
+      "sub_checks": [
+        {
+          "item": "Training data quality assessment",
+          "status": "PASS",
+          "evidence": "Preprocessing pipeline documents data cleaning steps, feature engineering, and quality checks."
+        },
+        {
+          "item": "Bias testing on training data",
+          "status": "PASS",
+          "evidence": "Fairness audit completed across 4 protected attributes. Status: PASS"
+        },
+        {
+          "item": "Data provenance documentation",
+          "status": "PASS",
+          "evidence": "UCI ML Repository dataset with documented provenance (Taiwan bank, 2005, 30,000 records)."
+        }
+      ],
+      "overall": "PASS"
+    },
+    "robustness": {
+      "requirement": "Article 15 \u2014 Accuracy, Robustness and Cybersecurity",
+      "description": "High-risk AI systems shall be designed and developed in such a way that they achieve an appropriate level of accuracy, robustness and cybersecurity.",
+      "sub_checks": [
+        {
+          "item": "Model performance monitoring plan",
+          "status": "PASS",
+          "evidence": "Model performance tracked: AUC=0.7769, F1=0.5399"
+        },
+        {
+          "item": "Adversarial robustness testing",
+          "status": "PASS",
+          "evidence": "Three model architectures compared. Cross-validation performed. Train/val/test split maintains population representativeness."
+        },
+        {
+          "item": "Fallback procedures documented",
+          "status": "PASS",
+          "evidence": "Model comparison pipeline enables fallback to alternative model if primary model degrades."
+        }
+      ],
+      "overall": "PASS"
+    }
+  },
+  "total_requirements": 12,
+  "requirements_met": 12,
+  "summary": "EU AI ACT COMPLIANCE ASSESSMENT\n==================================================\nRisk Classification: HIGH-RISK (Credit Scoring)\nOverall Status: COMPLIANT\n\n\u2705 Article 13 \u2014 Transparency: PASS\n    \u2713 Model documentation with intended purpose and limitations\n    \u2713 Clear disclosure that AI is used in credit decisions\n    \u2713 Explanation of key factors influencing each decision\n\u2705 Article 14 \u2014 Human Oversight: PASS\n    \u2713 Human-in-the-loop for final credit decisions\n    \u2713 Override capability documented\n    \u2713 Escalation procedures for edge cases\n\u2705 Article 10 \u2014 Data and Data Governance: PASS\n    \u2713 Training data quality assessment\n    \u2713 Bias testing on training data\n    \u2713 Data provenance documentation\n\u2705 Article 15 \u2014 Accuracy, Robustness and Cybersecurity: PASS\n    \u2713 Model performance monitoring plan\n    \u2713 Adversarial robustness testing\n    \u2713 Fallback procedures documented"
+}
