@@ -219,7 +219,7 @@ pytest tests/ -v --cov=src
 
 **Vishwas Kothari**
 MS Computer Science, University of Colorado Boulder
-[LinkedIn](https://linkedin.com/in/yourprofile) | [Email](mailto:your@email.com)
+[LinkedIn](https://www.linkedin.com/in/vishwas-kothari) | [Email](mailto:vishwasvkothari@gmail.com)
 
 ---
 
