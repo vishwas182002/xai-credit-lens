@@ -188,6 +188,12 @@ class CounterfactualExplainer:
             cf_val = counterfactual[feat]
 
             if not np.isclose(orig_val, cf_val, rtol=1e-3):
+                # Compute percentage change, capping at 999% for near-zero originals
+                if abs(orig_val) < 1.0:
+                    pct = min(float(abs(cf_val - orig_val)) * 100, 999.0)
+                else:
+                    pct = min(float(abs(cf_val - orig_val) / abs(orig_val) * 100), 999.0)
+
                 change = {
                     "feature": feat,
                     "label": FEATURE_LABELS.get(feat, feat),
@@ -195,12 +201,12 @@ class CounterfactualExplainer:
                     "counterfactual": float(cf_val),
                     "direction": "increase" if cf_val > orig_val else "decrease",
                     "magnitude": float(abs(cf_val - orig_val)),
-                    "pct_change": float(abs(cf_val - orig_val) / max(abs(orig_val), 1e-6) * 100),
+                    "pct_change": pct,
                 }
                 changes.append(change)
 
-        # Sort by magnitude of percentage change
-        changes.sort(key=lambda x: x["pct_change"], reverse=True)
+        # Sort by percentage change, then magnitude as tiebreaker
+        changes.sort(key=lambda x: (x["pct_change"], x["magnitude"]), reverse=True)
         return changes
 
     def _changes_to_text(self, changes: list[dict], new_prob: float) -> str:

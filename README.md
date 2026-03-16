@@ -88,7 +88,7 @@ Credit decisions affect millions of lives, yet most ML models in lending operate
 
 ```bash
 # Clone the repo
-git clone https://github.com/yourusername/xai-credit-lens.git
+git clone https://github.com/vishwas182002/xai-credit-lens.git
 cd xai-credit-lens
 
 # Create virtual environment
@@ -219,7 +219,7 @@ pytest tests/ -v --cov=src
 
 **Vishwas Kothari**
 MS Computer Science, University of Colorado Boulder
-[LinkedIn](https://www.linkedin.com/in/vishwas-kothari) | [Email](mailto:vishwasvkothari@gmail.com)
+[LinkedIn](https://linkedin.com/in/yourprofile) | [Email](mailto:your@email.com)
 
 ---
 
