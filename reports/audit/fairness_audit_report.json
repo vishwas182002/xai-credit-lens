@@ -1,0 +1,116 @@
+{
+  "audit_results": {
+    "sex": {
+      "label": "Gender",
+      "privileged_count": 2402,
+      "unprivileged_count": 3598,
+      "metrics": {
+        "disparate_impact": 1.0288831305150488,
+        "statistical_parity_difference": 0.021752532515288636,
+        "equal_opportunity_difference": 0.020296654147061166,
+        "equalized_odds_difference": 0.022962142903175303,
+        "predictive_parity_difference": 0.018999437886453086,
+        "privileged_favorable_rate": 0.7531223980016652,
+        "unprivileged_favorable_rate": 0.7748749305169539,
+        "privileged_avg_prob": 0.37600671327761986,
+        "unprivileged_avg_prob": 0.3600385083381646
+      },
+      "flags": {
+        "disparate_impact": false,
+        "statistical_parity_difference": false,
+        "equal_opportunity_difference": false,
+        "equalized_odds_difference": false,
+        "predictive_parity_difference": false
+      },
+      "has_violations": false,
+      "recommendations": [
+        "No significant fairness violations detected for this attribute."
+      ]
+    },
+    "education": {
+      "label": "Education Level",
+      "privileged_count": 4904,
+      "unprivileged_count": 1096,
+      "metrics": {
+        "disparate_impact": 0.9627820194454253,
+        "statistical_parity_difference": -0.02871036305831076,
+        "equal_opportunity_difference": 0.0012543139186325103,
+        "equalized_odds_difference": 0.0230122676498343,
+        "predictive_parity_difference": -0.0006010337780983921,
+        "privileged_favorable_rate": 0.7714110929853181,
+        "unprivileged_favorable_rate": 0.7427007299270073,
+        "privileged_avg_prob": 0.3611961395270574,
+        "unprivileged_avg_prob": 0.3898547536978736
+      },
+      "flags": {
+        "disparate_impact": false,
+        "statistical_parity_difference": false,
+        "equal_opportunity_difference": false,
+        "equalized_odds_difference": false,
+        "predictive_parity_difference": false
+      },
+      "has_violations": false,
+      "recommendations": [
+        "No significant fairness violations detected for this attribute."
+      ]
+    },
+    "age": {
+      "label": "Age Group",
+      "privileged_count": 4088,
+      "unprivileged_count": 1912,
+      "metrics": {
+        "disparate_impact": 0.9595396302747949,
+        "statistical_parity_difference": -0.03140429382046861,
+        "equal_opportunity_difference": 0.03400988810824879,
+        "equalized_odds_difference": 0.03400988810824879,
+        "predictive_parity_difference": -0.029371584699453557,
+        "privileged_favorable_rate": 0.776174168297456,
+        "unprivileged_favorable_rate": 0.7447698744769874,
+        "privileged_avg_prob": 0.35835065185078324,
+        "unprivileged_avg_prob": 0.3837077476608563
+      },
+      "flags": {
+        "disparate_impact": false,
+        "statistical_parity_difference": false,
+        "equal_opportunity_difference": false,
+        "equalized_odds_difference": false,
+        "predictive_parity_difference": false
+      },
+      "has_violations": false,
+      "recommendations": [
+        "No significant fairness violations detected for this attribute."
+      ]
+    },
+    "marriage": {
+      "label": "Marital Status",
+      "privileged_count": 2767,
+      "unprivileged_count": 3158,
+      "metrics": {
+        "disparate_impact": 1.0181139666314758,
+        "statistical_parity_difference": 0.013740952641658088,
+        "equal_opportunity_difference": 0.004116188025803158,
+        "equalized_odds_difference": 0.004116188025803158,
+        "predictive_parity_difference": -0.0519121700965246,
+        "privileged_favorable_rate": 0.7585833032164799,
+        "unprivileged_favorable_rate": 0.772324255858138,
+        "privileged_avg_prob": 0.3689891981199482,
+        "unprivileged_avg_prob": 0.3639306343027317
+      },
+      "flags": {
+        "disparate_impact": false,
+        "statistical_parity_difference": false,
+        "equal_opportunity_difference": false,
+        "equalized_odds_difference": false,
+        "predictive_parity_difference": false
+      },
+      "has_violations": false,
+      "recommendations": [
+        "No significant fairness violations detected for this attribute."
+      ]
+    }
+  },
+  "overall_status": "PASS",
+  "total_attributes_audited": 4,
+  "attributes_with_violations": 0,
+  "summary": "============================================================\nFAIRNESS AUDIT SUMMARY\n============================================================\n\nGender: [PASS]\n  Groups: 2402 privileged, 3598 unprivileged\n  Disparate Impact: 1.029 >= 0.80\n\nEducation Level: [PASS]\n  Groups: 4904 privileged, 1096 unprivileged\n  Disparate Impact: 0.963 >= 0.80\n\nAge Group: [PASS]\n  Groups: 4088 privileged, 1912 unprivileged\n  Disparate Impact: 0.960 >= 0.80\n\nMarital Status: [PASS]\n  Groups: 2767 privileged, 3158 unprivileged\n  Disparate Impact: 1.018 >= 0.80"
+}
