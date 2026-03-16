@@ -1,0 +1,51 @@
+# Fairness Audit Configuration
+# XAI Credit Lens
+
+protected_attributes:
+  sex:
+    column: "SEX"
+    privileged: 1       # Male
+    unprivileged: 2     # Female
+    label: "Gender"
+  education:
+    column: "EDUCATION"
+    privileged: [1, 2]  # Graduate school, University
+    unprivileged: [3, 4] # High school, Other
+    label: "Education Level"
+  age:
+    column: "AGE"
+    privileged_condition: ">= 30"
+    unprivileged_condition: "< 30"
+    label: "Age Group"
+  marriage:
+    column: "MARRIAGE"
+    privileged: 1       # Married
+    unprivileged: 2     # Single
+    label: "Marital Status"
+
+metrics:
+  disparate_impact:
+    threshold: 0.80        # Four-fifths rule
+    description: "Ratio of favorable outcome rates between unprivileged and privileged groups"
+  statistical_parity_difference:
+    threshold: 0.10
+    description: "Difference in selection rates between groups"
+  equal_opportunity_difference:
+    threshold: 0.10
+    description: "Difference in true positive rates between groups"
+  equalized_odds_difference:
+    threshold: 0.10
+    description: "Max of TPR and FPR differences between groups"
+  predictive_parity_difference:
+    threshold: 0.10
+    description: "Difference in positive predictive values between groups"
+  calibration_difference:
+    threshold: 0.05
+    description: "Difference in calibration across groups"
+
+audit:
+  favorable_label: 0     # Not defaulting is favorable
+  generate_report: true
+  report_format: "html"
+  include_visualizations: true
+  significance_level: 0.05

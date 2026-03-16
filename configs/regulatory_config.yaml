@@ -1,0 +1,68 @@
+# Regulatory Mapping Configuration
+# XAI Credit Lens
+
+eu_ai_act:
+  risk_classification: "high"  # Credit scoring = high-risk AI system
+  requirements:
+    transparency:
+      - "Model documentation with intended purpose and limitations"
+      - "Clear disclosure that AI is used in credit decisions"
+      - "Explanation of key factors influencing each decision"
+    human_oversight:
+      - "Human-in-the-loop for final credit decisions"
+      - "Override capability documented"
+      - "Escalation procedures for edge cases"
+    data_governance:
+      - "Training data quality assessment"
+      - "Bias testing on training data"
+      - "Data provenance documentation"
+    robustness:
+      - "Model performance monitoring plan"
+      - "Adversarial robustness testing"
+      - "Fallback procedures documented"
+
+ecoa_reg_b:
+  adverse_action:
+    max_reasons: 4
+    reason_mapping:
+      PAY_0: "Recent payment history"
+      LIMIT_BAL: "Credit limit relative to obligations"
+      debt_to_income_proxy: "Ratio of debt to available credit"
+      utilization_rate: "Credit utilization rate"
+      months_delinquent_count: "Number of months with late payments"
+      avg_payment_delay: "Average payment delay severity"
+      payment_ratio: "Payment amount relative to balance"
+      AGE: "Length of credit history"
+      BILL_AMT1: "Current balance amount"
+      payment_trend: "Recent payment trajectory"
+    prohibited_bases:
+      - "race"
+      - "color"
+      - "religion"
+      - "national_origin"
+      - "sex"
+      - "marital_status"
+      - "age"  # unless statistically sound credit scoring system
+
+fed_sr_11_7:
+  documentation:
+    model_development:
+      - "Objective and intended use"
+      - "Data sources and quality"
+      - "Feature selection rationale"
+      - "Model methodology and alternatives considered"
+      - "Assumptions and limitations"
+    validation:
+      - "Independent review of model logic"
+      - "Out-of-sample testing results"
+      - "Sensitivity analysis"
+      - "Benchmarking against alternative approaches"
+    ongoing_monitoring:
+      - "Performance metric tracking plan"
+      - "Population stability index (PSI)"
+      - "Feature drift detection"
+      - "Retraining triggers and schedule"
+    governance:
+      - "Model owner and validator roles"
+      - "Approval and change management process"
+      - "Escalation procedures"

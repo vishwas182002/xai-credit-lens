@@ -1,0 +1,22 @@
+"""Structured logging for XAI Credit Lens."""
+
+import logging
+import sys
+from pathlib import Path
+
+
+def get_logger(name: str, level: int = logging.INFO) -> logging.Logger:
+    """Create a structured logger with consistent formatting."""
+    logger = logging.getLogger(f"xai_credit_lens.{name}")
+
+    if not logger.handlers:
+        handler = logging.StreamHandler(sys.stdout)
+        formatter = logging.Formatter(
+            fmt="%(asctime)s | %(name)s | %(levelname)s | %(message)s",
+            datefmt="%Y-%m-%d %H:%M:%S",
+        )
+        handler.setFormatter(formatter)
+        logger.addHandler(handler)
+        logger.setLevel(level)
+
+    return logger

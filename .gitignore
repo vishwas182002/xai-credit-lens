@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+*.egg
+.eggs/
+venv/
+.venv/
+
+# Data (raw data not committed - downloaded via script)
+data/raw/
+data/processed/
+data/splits/
+
+# Models (too large for git)
+models/*.pkl
+models/*.joblib
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Reports (generated)
+reports/figures/*.png
+reports/figures/*.pdf
+reports/audit/*.html
+
+# Environment
+.env
+*.log

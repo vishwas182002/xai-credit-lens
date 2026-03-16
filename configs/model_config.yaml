@@ -1,0 +1,98 @@
+# Model Training Configuration
+# XAI Credit Lens
+
+data:
+  source: "uci_default_credit"
+  test_size: 0.2
+  val_size: 0.15
+  random_state: 42
+  stratify_column: "default"
+
+features:
+  numeric:
+    - LIMIT_BAL
+    - AGE
+    - BILL_AMT1
+    - BILL_AMT2
+    - BILL_AMT3
+    - BILL_AMT4
+    - BILL_AMT5
+    - BILL_AMT6
+    - PAY_AMT1
+    - PAY_AMT2
+    - PAY_AMT3
+    - PAY_AMT4
+    - PAY_AMT5
+    - PAY_AMT6
+  categorical:
+    - SEX
+    - EDUCATION
+    - MARRIAGE
+  ordinal:
+    - PAY_0
+    - PAY_2
+    - PAY_3
+    - PAY_4
+    - PAY_5
+    - PAY_6
+  engineered:
+    - debt_to_income_proxy      # total_bill / limit_bal
+    - payment_ratio             # total_pay / total_bill
+    - utilization_rate           # avg_bill / limit_bal
+    - months_delinquent_count   # count of PAY_X > 0
+    - avg_payment_delay         # mean of PAY_0..PAY_6
+    - payment_trend             # slope of PAY_AMT1..PAY_AMT6
+
+models:
+  xgboost:
+    n_estimators: 500
+    max_depth: 6
+    learning_rate: 0.05
+    subsample: 0.8
+    colsample_bytree: 0.8
+    min_child_weight: 3
+    reg_alpha: 0.1
+    reg_lambda: 1.0
+    scale_pos_weight: auto  # computed from class imbalance
+    eval_metric: "auc"
+    early_stopping_rounds: 50
+
+  lightgbm:
+    n_estimators: 500
+    max_depth: 7
+    learning_rate: 0.05
+    num_leaves: 63
+    subsample: 0.8
+    colsample_bytree: 0.8
+    min_child_samples: 20
+    reg_alpha: 0.1
+    reg_lambda: 1.0
+    is_unbalance: true
+    metric: "auc"
+
+  random_forest:
+    n_estimators: 500
+    max_depth: 12
+    min_samples_split: 10
+    min_samples_leaf: 5
+    max_features: "sqrt"
+    class_weight: "balanced"
+
+tuning:
+  enabled: true
+  engine: "optuna"
+  n_trials: 100
+  cv_folds: 5
+  scoring: "roc_auc"
+  timeout: 3600  # seconds
+
+evaluation:
+  metrics:
+    - roc_auc
+    - precision
+    - recall
+    - f1
+    - average_precision
+    - brier_score
+  threshold_optimization: "f1"
+  calibration: true
