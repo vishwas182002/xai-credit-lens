@@ -1,1 +1,2 @@
 reports/figures/*.html linguist-generated
+notebooks/*.ipynb linguist-documentation
