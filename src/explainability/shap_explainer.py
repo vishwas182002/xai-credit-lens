@@ -67,16 +67,22 @@ class SHAPExplainer:
         if len(instance.shape) == 1:
             instance = instance.to_frame().T
 
-        shap_values = self._get_shap_values(instance)[0]
+        shap_values = self._get_shap_values(instance)
+        # Ensure we have a 1D array for a single instance
+        if len(shap_values.shape) > 1:
+            shap_values = shap_values[0]
+        shap_values = np.ravel(shap_values)
+
         base_value = self._get_base_value()
         prob = self.model.predict_proba(instance)[0, 1]
 
         # Identify top contributing features
+        feature_values = np.ravel(instance.values[0])
         contributions = pd.DataFrame(
             {
                 "feature": self.feature_names,
                 "shap_value": shap_values,
-                "feature_value": instance.values[0],
+                "feature_value": feature_values,
             }
         ).sort_values("shap_value", key=abs, ascending=False)
 
@@ -139,7 +145,11 @@ class SHAPExplainer:
         sv = self.explainer.shap_values(X)
         # For binary classification, TreeExplainer may return list of [class0, class1]
         if isinstance(sv, list):
-            return sv[1]  # class 1 = default
+            return np.array(sv[1])  # class 1 = default
+        sv = np.array(sv)
+        # Shape (samples, features, classes) — take class 1
+        if sv.ndim == 3:
+            return sv[:, :, 1]
         if hasattr(sv, "values"):
             return sv.values
         return sv

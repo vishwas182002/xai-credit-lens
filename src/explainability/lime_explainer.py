@@ -57,11 +57,13 @@ class LIMEExplainer:
             instance_arr,
             self.model.predict_proba,
             num_features=num_features,
-            top_labels=1,
+            top_labels=2,
         )
 
         # Extract feature contributions for default class (class 1)
-        label = 1
+        # Fall back to whatever label is available
+        available_labels = explanation.available_labels()
+        label = 1 if 1 in available_labels else available_labels[0]
         feature_weights = explanation.as_list(label=label)
 
         prob = self.model.predict_proba(instance_arr.reshape(1, -1))[0]
