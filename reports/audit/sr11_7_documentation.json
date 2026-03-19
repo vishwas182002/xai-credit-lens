@@ -1,7 +1,7 @@
 {
   "framework": "Federal Reserve SR 11-7: Guidance on Model Risk Management",
-  "model_name": "Random Forest Credit Default Classifier",
-  "document_date": "2026-03-15T20:13:31.745849",
+  "model_name": "Credit Default Classifier",
+  "document_date": "2026-03-19T17:21:11.596973",
   "model_tier": "Tier 2 \u2014 Material Model",
   "sections": {
     "model_development": {
@@ -9,7 +9,7 @@
       "items": {
         "objective_and_intended_use": {
           "requirement": "Objective and intended use",
-          "documentation": "The Random Forest Credit Default Classifier is designed to predict the probability of credit card payment default within the next billing cycle. It is intended as a decision-support tool for credit risk assessment, providing probability estimates alongside multi-method explanations (SHAP, LIME, counterfactual) to enable informed human decision-making. The model is NOT intended for autonomous credit decisioning.",
+          "documentation": "The Credit Default Classifier is designed to predict the probability of credit card payment default within the next billing cycle. It is intended as a decision-support tool for credit risk assessment, providing probability estimates alongside multi-method explanations (SHAP, LIME, counterfactual) to enable informed human decision-making. The model is NOT intended for autonomous credit decisioning.",
           "status": "DOCUMENTED"
         },
         "data_sources_and_quality": {
@@ -24,7 +24,7 @@
         },
         "methodology_and_alternatives": {
           "requirement": "Model methodology and alternatives considered",
-          "documentation": "Three model architectures evaluated: XGBoost (gradient boosted trees), LightGBM (gradient boosted trees with leaf-wise growth), Random Forest (bagged decision trees). Random Forest selected based on highest validation AUC (0.7768635450231097). Tree-based models chosen for interpretability compatibility with SHAP TreeExplainer. Linear models (Logistic Regression) considered but excluded due to lower performance on non-linear payment patterns.",
+          "documentation": "Three model architectures evaluated: XGBoost (gradient boosted trees), LightGBM (gradient boosted trees with leaf-wise growth), Random Forest (bagged decision trees). Best model selected based on highest validation AUC (0.7821874640687068). Tree-based models chosen for interpretability compatibility with SHAP TreeExplainer. Linear models (Logistic Regression) considered but excluded due to lower performance on non-linear payment patterns.",
           "status": "DOCUMENTED"
         },
         "assumptions_and_limitations": {
@@ -44,7 +44,7 @@
         },
         "out_of_sample_testing": {
           "requirement": "Out-of-sample testing results",
-          "documentation": "Held-out test set (6,000 samples, 20% of data): AUC = 0.7768635450231097, F1 = 0.5399267399267399, Precision = 0.5253029223093372, Recall = 0.5553880934438583. Stratified split ensures class balance consistency across train (22.12%), validation (22.11%), and test (22.12%) sets.",
+          "documentation": "Held-out test set (20% of data): AUC = 0.7821874640687068, F1 = 0.5341378215306446, Precision = 0.4615806805708013, Recall = 0.6337603617181613. Stratified split ensures class balance consistency across train, validation, and test sets.",
           "status": "DOCUMENTED"
         },
         "sensitivity_analysis": {
@@ -54,7 +54,7 @@
         },
         "benchmarking": {
           "requirement": "Benchmarking against alternative approaches",
-          "documentation": "Model compared against three alternative approaches (XGBoost, LightGBM, Random Forest). Published benchmarks on this dataset report AUC of 0.77-0.82; our model achieves AUC = 0.7768635450231097, within expected range. Fairness audit status: PASS across all 4 protected attributes.",
+          "documentation": "Model compared against three alternative approaches (XGBoost, LightGBM, Random Forest). Published benchmarks on this dataset report AUC of 0.77-0.82; our model achieves AUC = 0.7821874640687068, within expected range. Fairness audit status: PASS across all 4 protected attributes.",
           "status": "DOCUMENTED"
         }
       }
@@ -112,5 +112,5 @@
     "template": 3,
     "completion_pct": "56%"
   },
-  "summary": "FED SR 11-7 MODEL RISK MANAGEMENT DOCUMENTATION\n=======================================================\nModel: Random Forest Credit Default Classifier\nTier: Tier 2 \u2014 Material Model\nDate: 2026-03-15\n\nDocumentation Completion: 56%\n  Documented: 9/16\n  Planned:    4/16\n  Template:   3/16\n\n--- Model Development Documentation ---\n  \u2705 Objective and intended use: DOCUMENTED\n  \u2705 Data sources and quality: DOCUMENTED\n  \u2705 Feature selection rationale: DOCUMENTED\n  \u2705 Model methodology and alternatives considered: DOCUMENTED\n  \u2705 Assumptions and limitations: DOCUMENTED\n\n--- Model Validation ---\n  \u2705 Independent review of model logic: DOCUMENTED\n  \u2705 Out-of-sample testing results: DOCUMENTED\n  \u2705 Sensitivity analysis: DOCUMENTED\n  \u2705 Benchmarking against alternative approaches: DOCUMENTED\n\n--- Ongoing Monitoring ---\n  \ud83d\udccb Performance metric tracking plan: PLANNED\n  \ud83d\udccb Population stability index (PSI): PLANNED\n  \ud83d\udccb Feature drift detection: PLANNED\n  \ud83d\udccb Retraining triggers and schedule: PLANNED\n\n--- Governance ---\n  \ud83d\udcdd Model owner and validator roles: TEMPLATE\n  \ud83d\udcdd Approval and change management process: TEMPLATE\n  \ud83d\udcdd Escalation procedures: TEMPLATE\n"
+  "summary": "FED SR 11-7 MODEL RISK MANAGEMENT DOCUMENTATION\n=======================================================\nModel: Credit Default Classifier\nTier: Tier 2 \u2014 Material Model\nDate: 2026-03-19\n\nDocumentation Completion: 56%\n  Documented: 9/16\n  Planned:    4/16\n  Template:   3/16\n\n--- Model Development Documentation ---\n  \u2705 Objective and intended use: DOCUMENTED\n  \u2705 Data sources and quality: DOCUMENTED\n  \u2705 Feature selection rationale: DOCUMENTED\n  \u2705 Model methodology and alternatives considered: DOCUMENTED\n  \u2705 Assumptions and limitations: DOCUMENTED\n\n--- Model Validation ---\n  \u2705 Independent review of model logic: DOCUMENTED\n  \u2705 Out-of-sample testing results: DOCUMENTED\n  \u2705 Sensitivity analysis: DOCUMENTED\n  \u2705 Benchmarking against alternative approaches: DOCUMENTED\n\n--- Ongoing Monitoring ---\n  \ud83d\udccb Performance metric tracking plan: PLANNED\n  \ud83d\udccb Population stability index (PSI): PLANNED\n  \ud83d\udccb Feature drift detection: PLANNED\n  \ud83d\udccb Retraining triggers and schedule: PLANNED\n\n--- Governance ---\n  \ud83d\udcdd Model owner and validator roles: TEMPLATE\n  \ud83d\udcdd Approval and change management process: TEMPLATE\n  \ud83d\udcdd Escalation procedures: TEMPLATE\n"
 }

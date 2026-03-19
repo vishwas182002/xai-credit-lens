@@ -2,7 +2,7 @@
   "framework": "EU Artificial Intelligence Act (2024)",
   "risk_classification": "high",
   "use_case": "Credit scoring / creditworthiness assessment",
-  "assessment_date": "2026-03-15T20:13:31.741322",
+  "assessment_date": "2026-03-19T17:21:11.593031",
   "overall_compliance": "COMPLIANT",
   "checks": {
     "transparency": {
@@ -78,7 +78,7 @@
         {
           "item": "Model performance monitoring plan",
           "status": "PASS",
-          "evidence": "Model performance tracked: AUC=0.7769, F1=0.5399"
+          "evidence": "Model performance tracked: AUC=0.7822, F1=0.5341"
         },
         {
           "item": "Adversarial robustness testing",
