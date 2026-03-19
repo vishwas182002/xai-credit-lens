@@ -44,7 +44,8 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
     # Fix MARRIAGE: merge undocumented category 0 into 3 (Other)
     df["MARRIAGE"] = df["MARRIAGE"].replace({0: 3})
 
-    # Clip PAY_X columns: values below -1 are all "paid duly", normalize to -1
+    # Clip PAY_X columns: -2 = no consumption, -1 = paid in full, 0+ = months delayed
+    # Values below -2 are undocumented; clip to -2
     for col in PAY_COLS:
         df[col] = df[col].clip(lower=-2)
 

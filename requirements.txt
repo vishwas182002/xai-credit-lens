@@ -34,4 +34,3 @@ pytest-cov>=4.1.0
 # Code Quality
 black>=23.11.0
 kaleido>=0.2.1
-kaleido>=0.2.1
