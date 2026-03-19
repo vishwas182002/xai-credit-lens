@@ -26,7 +26,7 @@ class SR117DocumentationGenerator:
 
     def generate_documentation(
         self,
-        model_name: str = "Random Forest Credit Default Classifier",
+        model_name: str = "Credit Default Classifier",
         model_metrics: Optional[dict] = None,
         fairness_report: Optional[dict] = None,
         training_details: Optional[dict] = None,
@@ -127,7 +127,7 @@ class SR117DocumentationGenerator:
                         "XGBoost (gradient boosted trees), "
                         "LightGBM (gradient boosted trees with leaf-wise growth), "
                         "Random Forest (bagged decision trees). "
-                        "Random Forest selected based on highest validation AUC "
+                        "Best model selected based on highest validation AUC "
                         f"({metrics.get('roc_auc', 'N/A') if metrics else 'N/A'}). "
                         "Tree-based models chosen for interpretability compatibility "
                         "with SHAP TreeExplainer. "
@@ -184,11 +184,11 @@ class SR117DocumentationGenerator:
                 "out_of_sample_testing": {
                     "requirement": validation_items[1],
                     "documentation": (
-                        f"Held-out test set (6,000 samples, 20% of data): "
+                        f"Held-out test set (20% of data): "
                         f"AUC = {auc}, F1 = {f1}, "
                         f"Precision = {precision}, Recall = {recall}. "
                         "Stratified split ensures class balance consistency across "
-                        "train (22.12%), validation (22.11%), and test (22.12%) sets."
+                        "train, validation, and test sets."
                     ),
                     "status": "DOCUMENTED",
                 },
@@ -386,8 +386,16 @@ if __name__ == "__main__":
         with open(fairness_path) as f:
             fairness_report = json.load(f)
 
+    # Read best model name
+    best_model_path = PROJECT_ROOT / "models" / "best_model.txt"
+    model_name = "Credit Default Classifier"
+    if best_model_path.exists():
+        best = best_model_path.read_text().strip()
+        model_name = f"{best.replace('_', ' ').title()} Credit Default Classifier"
+
     generator = SR117DocumentationGenerator()
     doc = generator.generate_documentation(
+        model_name=model_name,
         model_metrics=model_metrics,
         fairness_report=fairness_report,
     )

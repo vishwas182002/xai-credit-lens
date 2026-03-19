@@ -662,10 +662,19 @@ def render_regulatory_panel(pred, prob, shap_values, feature_names):
             "- Ongoing monitoring framework (fairness metrics)\n"
             "- Clear model limitations and assumptions"
         )
-        st.markdown(
-            f"**Model Performance:** AUC = 0.777 on held-out test set "
-            f"(population: 6,000 applicants)"
-        )
+        # Load test metrics dynamically
+        import json
+        metrics_path = MODELS_DIR / "test_metrics.json"
+        if metrics_path.exists():
+            with open(metrics_path) as f:
+                test_metrics = json.load(f)
+            test_auc = test_metrics.get("roc_auc", "N/A")
+            st.markdown(
+                f"**Model Performance:** AUC = {test_auc:.4f} on held-out test set "
+                f"({model_name.replace('_', ' ').title()})"
+            )
+        else:
+            st.markdown("**Model Performance:** Run training pipeline to generate metrics.")
 
 
 # ---------------------------------------------------------------------------
