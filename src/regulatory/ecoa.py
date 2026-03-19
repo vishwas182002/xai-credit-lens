@@ -6,7 +6,6 @@ as required by the Equal Credit Opportunity Act.
 
 from typing import Optional
 
-import pandas as pd
 
 from src.utils.logger import get_logger
 from src.utils.config import get_regulatory_config
