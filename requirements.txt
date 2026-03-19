@@ -14,9 +14,7 @@ shap>=0.43.0
 lime>=0.2.0.1
 dice-ml>=0.11
 
-# Fairness
-fairlearn>=0.9.0
-aif360>=0.6.0
+# Fairness (custom implementation in src/fairness/metrics.py)
 
 # Dashboard
 streamlit>=1.28.0
@@ -28,7 +26,6 @@ seaborn>=0.13.0
 
 # Config & Utils
 pyyaml>=6.0.1
-pydantic>=2.5.0
 
 # Testing
 pytest>=7.4.0

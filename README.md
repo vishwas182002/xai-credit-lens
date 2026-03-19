@@ -42,9 +42,8 @@ Credit decisions affect millions of lives, yet most ML models in lending operate
 
 ### Layer 1 — Prediction Engine
 - XGBoost, LightGBM, Random Forest ensemble
-- Hyperparameter tuning via Optuna
-- Stratified K-Fold cross-validation
-- Model comparison & selection pipeline
+- Optuna hyperparameter tuning with Stratified 5-Fold cross-validation
+- Automated model comparison & best-model selection
 
 ### Layer 2 — Explainability Suite
 - **SHAP**: Global feature importance + local waterfall plots
@@ -97,19 +96,23 @@ source venv/bin/activate  # Windows: venv\Scripts\activate
 
 # Install dependencies
 pip install -r requirements.txt
+pip install -e .
 
 # Download and prepare data
-python src/data/download_data.py
-python src/data/preprocess.py
+python -m src.data.download_data
+python -m src.data.preprocess
 
-# Train models
-python src/models/train.py
+# Train models (includes Optuna tuning — takes ~10 min)
+python -m src.models.train
 
-# Generate explanations
-python src/explainability/run_explanations.py
+# Generate explanations for a sample applicant
+python -m src.explainability.run_explanations
 
 # Run fairness audit
-python src/fairness/audit.py
+python -m src.fairness.audit
+
+# Run regulatory compliance checks
+python -m src.regulatory.compliance_engine
 
 # Launch dashboard
 streamlit run src/dashboard/app.py
@@ -122,32 +125,24 @@ streamlit run src/dashboard/app.py
 ```
 xai-credit-lens/
 ├── configs/
-│   ├── model_config.yaml          # Model hyperparameters & training config
+│   ├── model_config.yaml          # Model hyperparameters & tuning config
 │   ├── fairness_config.yaml       # Fairness thresholds & protected attributes
 │   └── regulatory_config.yaml     # Compliance mapping rules
 ├── data/
 │   ├── raw/                       # Original downloaded dataset
 │   ├── processed/                 # Cleaned & feature-engineered data
 │   └── splits/                    # Train/val/test splits
-├── docs/
-│   └── regulatory_mapping.md      # Detailed regulation-to-feature mapping
 ├── notebooks/
-│   ├── 01_eda.ipynb               # Exploratory data analysis
-│   ├── 02_modeling.ipynb          # Model development & comparison
-│   ├── 03_explainability.ipynb    # SHAP, LIME, counterfactual exploration
-│   └── 04_fairness.ipynb          # Bias analysis deep dive
+│   └── 01_eda.py                  # Exploratory data analysis
 ├── reports/
 │   ├── figures/                   # Generated plots and charts
-│   └── audit/                     # Compliance audit outputs
+│   └── audit/                     # Compliance audit outputs (JSON)
 ├── src/
 │   ├── data/
-│   │   ├── download_data.py       # Dataset acquisition
-│   │   ├── preprocess.py          # Cleaning & feature engineering
-│   │   └── feature_store.py       # Feature definitions & metadata
+│   │   ├── download_data.py       # Dataset acquisition from UCI
+│   │   └── preprocess.py          # Cleaning, feature engineering, splitting
 │   ├── models/
-│   │   ├── train.py               # Training pipeline
-│   │   ├── evaluate.py            # Evaluation metrics & comparison
-│   │   └── model_registry.py      # Model versioning & selection
+│   │   └── train.py               # Optuna tuning + training + evaluation
 │   ├── explainability/
 │   │   ├── shap_explainer.py      # SHAP global + local explanations
 │   │   ├── lime_explainer.py      # LIME instance explanations
@@ -155,27 +150,24 @@ xai-credit-lens/
 │   │   └── run_explanations.py    # Orchestrator for all explainers
 │   ├── fairness/
 │   │   ├── metrics.py             # Fairness metric calculations
-│   │   ├── audit.py               # Automated bias audit pipeline
-│   │   └── report_generator.py    # Compliance report builder
+│   │   └── audit.py               # Automated bias audit pipeline
 │   ├── regulatory/
 │   │   ├── eu_ai_act.py           # EU AI Act compliance checks
 │   │   ├── ecoa.py                # ECOA adverse action mapping
 │   │   ├── sr11_7.py              # Fed SR 11-7 documentation
 │   │   └── compliance_engine.py   # Unified compliance orchestrator
 │   ├── dashboard/
-│   │   ├── app.py                 # Main Streamlit application
-│   │   ├── components/            # Reusable dashboard widgets
-│   │   └── styles/                # Custom CSS
+│   │   └── app.py                 # Main Streamlit application
 │   └── utils/
 │       ├── logger.py              # Structured logging
-│       ├── config.py              # Configuration loader
-│       └── visualization.py       # Shared plotting utilities
+│       └── config.py              # Configuration loader
 ├── tests/
-│   ├── test_data.py
-│   ├── test_models.py
-│   ├── test_explainability.py
-│   └── test_fairness.py
+│   ├── test_data.py               # Data pipeline tests
+│   ├── test_models.py             # Model training tests
+│   ├── test_explainability.py     # SHAP & LIME tests
+│   └── test_fairness.py           # Fairness audit tests
 ├── .gitignore
+├── .gitattributes
 ├── LICENSE
 ├── README.md
 ├── requirements.txt
@@ -206,12 +198,12 @@ pytest tests/ -v --cov=src
 
 - **ML**: XGBoost, LightGBM, scikit-learn, Optuna
 - **Explainability**: SHAP, LIME, DiCE
-- **Fairness**: Fairlearn, AIF360
+- **Fairness**: Custom implementation (disparate impact, statistical parity, equalized odds, predictive parity)
 - **Dashboard**: Streamlit
 - **Data**: pandas, NumPy
 - **Visualization**: Plotly, Matplotlib, Seaborn
 - **Testing**: pytest
-- **Config**: PyYAML, Pydantic
+- **Config**: PyYAML
 
 ---
 
